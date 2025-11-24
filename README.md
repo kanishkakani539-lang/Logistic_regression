@@ -1,74 +1,49 @@
-# Logistic Regression From Scratch Using NumPy
+# Logistic Regression From Scratch
 
-This project implements logistic regression without using any machine learning libraries. The goal is to demonstrate a complete understanding of the underlying mathematics, including the sigmoid activation function, binary cross-entropy loss, and gradient descent optimization. The implementation uses only NumPy for all mathematical operations.
+I built this small project to understand how logistic regression works internally.  
+Instead of using scikit-learn’s LogisticRegression, I wrote the full training logic myself using only NumPy.
 
 # Dataset
-A synthetic binary classification dataset is generated using the make_blobs function from scikit-learn. The dataset contains 100 samples and two input features, and the two classes are linearly separable. This makes the dataset suitable for demonstrating logistic regression because the optimal decision boundary is a straight line.
+I generated a simple two-class dataset using make_blobs. Each sample has two features because it makes it possible to plot the data and the final separating line. The clusters are placed far enough apart so that a straight line can separate them.
 
-# Approach
-The project follows a step-by-step implementation:
+# What I Implemented
+I coded the sigmoid function, the binary cross-entropy loss, and the gradient descent update rule.  
+The model starts with weights set to zero and updates them 1000 times.  
+During training, I printed a few cost values to ensure the loss was going down.
 
-1. Generate a two-feature dataset using make_blobs.
-2. Implement the sigmoid function as the model’s activation function.
-3. Implement the binary cross-entropy loss function to measure prediction error.
-4. Implement gradient descent manually to update the weights and bias.
-5. Train the model for 1000 iterations while monitoring the cost to ensure convergence.
-6. Visualize both the cost function over time and the final decision boundary in feature space.
-7. Interpret the learned parameters in relation to the dataset’s structure.
+# What the Learned Weights Mean
+After training, the model gave the following parameters:
 
-# Mathematical Framework
-Logistic regression models the probability of class membership using the sigmoid function:
+W1 = 1.6379374603657055  
+W2 = -0.404411072106562  
+b  = 0.1962176434408345
 
-p = 1 / (1 + exp(-(W1*x1 + W2*x2 + b)))
+The dataset created by make_blobs is mostly separated horizontally.  
+Because of that, the first feature contributes more to the class separation.  
+That explains why W1 ended up with a larger value than W2.  
+The sign of W2 being negative means the decision boundary tilts upward when you plot it.
 
-The model is trained by minimizing the binary cross-entropy loss. Gradients with respect to W1, W2, and b are derived from the loss function and updated using gradient descent. After convergence, the learned parameters define a linear decision boundary:
+The slope of the separating line comes from the ratio -W1/W2.  
+This matches the way the clusters appear visually.
 
-W1*x1 + W2*x2 + b = 0
+# ASCII Sketch of the Boundary
+Below is a rough text sketch of how the data looked before plotting:
 
-Rewriting the equation provides the explicit slope of the boundary:
+                x   x   x   x
+            x   x   x
+        x   x
 
-x2 = -(W1 / W2)*x1 - (b / W2)
+-------------------------------------  separating line
 
-This form allows direct interpretation of the geometry and relative feature importance.
-
-# Interpretation of Learned Parameters
-The learned weights describe how strongly each feature contributes to separating the two classes. A larger magnitude weight indicates greater influence. In this project, the magnitude of W1 is greater than W2. This occurs because the dataset exhibits greater horizontal separation than vertical separation. Feature 1 provides more discriminative information, resulting in a higher value for W1.
-
-The slope of the decision boundary is determined by the ratio -(W1/W2). Since W1 is positive and W2 is negative, the decision boundary slopes upward from left to right. The bias term shifts the boundary without affecting its slope, enabling proper positioning between the two clusters produced by make_blobs.
-
-# Final Model Results
-Final Cost: 0.001811582995684442  
-W1: 1.6379374603657055  
-W2: -0.404411072106562  
-Bias: 0.1962176434408345  
-
-These results show that the model converged successfully and learned a clear linear separator.
-
-# ASCII Representation of the Decision Boundary
-The following ASCII diagram provides a simplified representation of the class distribution and separating line:
-
-              x     x     x
-           x    x   x           (Class 1)
-        x    x
--------------------------------------------------  Decision Boundary
       x    x
-   x    x     x           (Class 0)
+   x    x    x
 
-Class 1 points appear above the line, while Class 0 points appear below it.
+The upper group represents one class and the lower group the other.
 
-# Visualizations
-Two plots are generated by the code:
-1. Cost convergence plot showing the decrease in binary cross-entropy during training.
-2. Decision boundary plot showing how the model separates the two classes.
+# Files
+The project includes:
+- a Python file containing the complete implementation  
+- two PNG images saved during execution (cost plot and decision line)  
+- a text file with the final numeric results
 
-Both plots are saved as image files for inspection.
-
-# Files Included
-- logistic_regression_scratch.py (complete NumPy implementation)
-- cost_plot.png (cost function progression)
-- decision_boundary.png (learned classifier)
-- outputs.txt (final numerical results)
-- README.md (project documentation)
-
-# Purpose
-The project demonstrates a complete understanding of logistic regression without relying on pre-built machine learning tools. It serves as a foundation for deeper study into optimization, linear models, and neural networks.
+My goal with this project was simply to understand the math and see the result visually rather than rely on a library.
